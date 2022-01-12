@@ -34,6 +34,30 @@ def cobertura(hospitalizacion, tipo):
     datos = datos.reset_index().rename(columns={'index': ''})
     return datos
 
+def aplicacion(vacunas, tipo):
+    
+    dep_map = {
+        'La Paz': 'La Paz',
+        'Cochabamba': 'Cochabamba',
+        'Santa Cruz': 'Santa Cruz',
+        'Oruro': 'Oruro',
+        'Potosi': 'Potosí',
+        'Tarija': 'Tarija',
+        'Chuquisaca': 'Chuquisaca',
+        'Beni': 'Beni',
+        'Pando': 'Pando'
+    }
+    
+    datos = {}
+    for dep in vacunas.columns.get_level_values(0).unique():
+        datos[dep] = vacunas[dep][tipo]
+    datos = pd.concat(datos, axis=1).tail(91)
+    datos.columns = [dep_map[c] for c in datos.columns]
+    datos = datos[departamentos].dropna().diff().dropna().astype(int)
+    datos['tipo'] = tipo.lower()
+    datos = datos.reset_index().rename(columns={'index': ''})
+    return datos
+
 # Variables
 
 urls = dict(
@@ -41,7 +65,8 @@ urls = dict(
     decesos = 'https://github.com/mauforonda/covid19-bolivia-udape/raw/master/decesos_diarios.csv',
     positividad = 'https://github.com/dquintani/covid/raw/main/positividad_diaria_ajuste.csv',
     pruebas = 'https://github.com/dquintani/covid/raw/main/pruebas_diarias.csv',
-    hospitalizacion = 'https://github.com/pr0nstar/covid19-data/raw/master/processed/bolivia/hospitalizations.csv'
+    hospitalizacion = 'https://github.com/pr0nstar/covid19-data/raw/master/processed/bolivia/hospitalizations.csv',
+    vacunas = 'https://github.com/pr0nstar/covid19-data/raw/master/processed/bolivia/vaccinations.csv'
 )
 
 departamentos = ['Chuquisaca', 'La Paz', 'Cochabamba', 'Oruro', 'Potosí', 'Tarija','Santa Cruz', 'Beni', 'Pando']
@@ -64,6 +89,13 @@ internacion = uti = cobertura(hospitalizacion, 'internacion')
 uci = cobertura(hospitalizacion, 'uci')
 uti = cobertura(hospitalizacion, 'uti')
 
+vacunas = pd.read_csv(urls['vacunas'], header=[0,1], parse_dates=[0], index_col=[0])
+
+primera = aplicacion(vacunas, 'Primera')
+segunda = aplicacion(vacunas, 'Segunda')
+tercera = aplicacion(vacunas, 'Tercera')
+unica = aplicacion(vacunas, 'Unica')
+
 master = pd.concat([
     casos,
     decesos,
@@ -71,8 +103,13 @@ master = pd.concat([
     pruebas,
     internacion,
     uci,
-    uti
+    uti,
+    primera,
+    segunda,
+    tercera,
+    unica
 ])
+master[''] = pd.to_datetime(master[''])
 
 # Archivo
 
