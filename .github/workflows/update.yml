@@ -24,7 +24,7 @@ jobs:
           python update/update.py
       - name: commit
         run: |
-          git config --global user.email covid-bot@example.com"
+          git config --global user.email "covid-bot@example.com"
           git config --global user.name "covid-bot"
           git add -A
           git diff --quiet && git diff --staged --quiet || (git commit -m "[ci] actualización"; git push -q "https://$GH_TOKEN@github.com/mauforonda/super_magic_covid_middleware.git" master)
