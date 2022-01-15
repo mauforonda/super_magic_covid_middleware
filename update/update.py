@@ -110,6 +110,7 @@ master = pd.concat([
     unica
 ])
 master[''] = pd.to_datetime(master[''])
+master = master.dropna()
 
 # Archivo
 
