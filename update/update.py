@@ -63,8 +63,8 @@ def aplicacion(vacunas, tipo):
 # Variables
 
 urls = dict(
-    casos = 'https://github.com/mauforonda/covid19-bolivia-udape/raw/master/confirmados_diarios.csv',
-    decesos = 'https://github.com/mauforonda/covid19-bolivia-udape/raw/master/decesos_diarios.csv',
+    casos = 'https://github.com/sociedatos/covid19-bo-casos_por_departamento/raw/master/confirmados_diarios.csv',
+    decesos = 'https://github.com/sociedatos/covid19-bo-casos_por_departamento/raw/master/decesos_diarios.csv',
     positividad = 'https://github.com/sociedatos/covid19-bo-pruebas_por_departamento/raw/master/positividad.csv',
     pruebas = 'https://github.com/sociedatos/covid19-bo-pruebas_por_departamento/raw/master/pruebas.csv',
     hospitalizacion = 'https://github.com/pr0nstar/covid19-data/raw/master/processed/bolivia/hospitalizations.csv',
