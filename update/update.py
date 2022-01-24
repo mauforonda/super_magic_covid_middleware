@@ -8,6 +8,8 @@ def parse_simple(url, tipo):
     
     df = pd.read_csv(url).rename(columns={'Unnamed: 0': ''}).tail(90)
     df['tipo'] = tipo
+    if 'Potosi' in df.columns:
+        df = df.rename(columns={'Potosi': 'Potosí'})
     return df[columnas]
 
 def cobertura(hospitalizacion, tipo):
@@ -63,10 +65,10 @@ def aplicacion(vacunas, tipo):
 urls = dict(
     casos = 'https://github.com/mauforonda/covid19-bolivia-udape/raw/master/confirmados_diarios.csv',
     decesos = 'https://github.com/mauforonda/covid19-bolivia-udape/raw/master/decesos_diarios.csv',
-    positividad = 'https://github.com/dquintani/covid/raw/main/positividad_diaria_raw.csv',
-    pruebas = 'https://github.com/dquintani/covid/raw/main/pruebas_diarias.csv',
+    positividad = 'https://github.com/sociedatos/covid19-bo-pruebas_por_departamento/raw/master/positividad.csv',
+    pruebas = 'https://github.com/sociedatos/covid19-bo-pruebas_por_departamento/raw/master/pruebas.csv',
     hospitalizacion = 'https://github.com/pr0nstar/covid19-data/raw/master/processed/bolivia/hospitalizations.csv',
-    vacunas = 'https://github.com/pr0nstar/covid19-data/raw/master/processed/bolivia/vaccinations.csv'
+    vacunas = 'https://github.com/sociedatos/covid19-bo-vacunas_por_departamento/raw/master/vaccinations.csv'
 )
 
 departamentos = ['Chuquisaca', 'La Paz', 'Cochabamba', 'Oruro', 'Potosí', 'Tarija','Santa Cruz', 'Beni', 'Pando']
