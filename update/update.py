@@ -83,7 +83,7 @@ positividad = parse_simple(urls['positividad'], 'positividad')
 positividad[departamentos] = positividad[departamentos] * 100
 
 pruebas = parse_simple(urls['pruebas'], 'pruebas')
-pruebas[departamentos] = pruebas[departamentos].astype(int)
+pruebas[departamentos] = pruebas[departamentos]
 
 hospitalizacion = pd.read_csv(urls['hospitalizacion'], header=[0,1,2], index_col=[0], skiprows=[3])
 
