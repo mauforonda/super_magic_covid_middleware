@@ -6,7 +6,7 @@ import pandas as pd
 
 def parse_simple(url, tipo):
     
-    df = pd.read_csv(url).rename(columns={'Unnamed: 0': ''}).tail(90)
+    df = pd.read_csv(url).rename(columns={'Unnamed: 0': ''})
     df['tipo'] = tipo
     if 'Potosi' in df.columns:
         df = df.rename(columns={'Potosi': 'Potosí'})
@@ -29,7 +29,7 @@ def cobertura(hospitalizacion, tipo):
     datos = {}
     for dep in hospitalizacion.columns.get_level_values(0).unique():
         datos[dep] = (hospitalizacion[dep]['hospitalizados'][tipo] / hospitalizacion[dep]['camas_habilitadas'][tipo])
-    datos = pd.concat(datos, axis=1).tail(90) * 100
+    datos = pd.concat(datos, axis=1) * 100
     datos.columns = [dep_map[c] for c in datos.columns]
     datos = datos[departamentos]
     datos['tipo'] = tipo
@@ -97,6 +97,7 @@ primera = aplicacion(vacunas, 'Primera')
 segunda = aplicacion(vacunas, 'Segunda')
 tercera = aplicacion(vacunas, 'Tercera')
 unica = aplicacion(vacunas, 'Unica')
+anual = aplicacion(vacunas, 'Anual')
 
 master = pd.concat([
     casos,
@@ -109,11 +110,13 @@ master = pd.concat([
     primera,
     segunda,
     tercera,
-    unica
+    unica,
+    anual
 ])
 master[''] = pd.to_datetime(master[''])
 # master = master.dropna()
 
 # Archivo
 
-master.to_csv('docs/master.csv', index=False, float_format="%.2f")
+master.to_csv('docs/complete.csv', index=False, float_format="%.2f")
+pd.concat([g.sort_values('').tail(90) for i, g in master.groupby('tipo')]).to_csv('docs/master.csv', index=False, float_format="%.2f")
