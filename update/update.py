@@ -119,4 +119,4 @@ master[''] = pd.to_datetime(master[''])
 # Archivo
 
 master.to_csv('docs/complete.csv', index=False, float_format="%.2f")
-pd.concat([g.sort_values('').tail(90) for i, g in master.groupby('tipo')]).to_csv('docs/master.csv', index=False, float_format="%.2f")
+pd.concat([master[master.tipo == tipo].sort_values('').tail(90) for tipo in ['casos', 'decesos', 'positividad', 'pruebas', 'internacion', 'uci', 'uti', 'primera', 'segunda', 'tercera', 'unica', 'anual']]).to_csv('docs/master.csv', index=False, float_format="%.2f")
