@@ -6,7 +6,7 @@ import pandas as pd
 
 def parse_simple(url, tipo):
     
-    df = pd.read_csv(url).rename(columns={'Unnamed: 0': ''}).tail(90)
+    df = pd.read_csv(url).rename(columns={'Unnamed: 0': ''})
     df['tipo'] = tipo
     if 'Potosi' in df.columns:
         df = df.rename(columns={'Potosi': 'Potosí'})
@@ -97,6 +97,7 @@ primera = aplicacion(vacunas, 'Primera')
 segunda = aplicacion(vacunas, 'Segunda')
 tercera = aplicacion(vacunas, 'Tercera')
 unica = aplicacion(vacunas, 'Unica')
+anual = aplicacion(vacunas, 'Anual')
 
 master = pd.concat([
     casos,
@@ -109,7 +110,8 @@ master = pd.concat([
     primera,
     segunda,
     tercera,
-    unica
+    unica,
+    anual
 ])
 master[''] = pd.to_datetime(master[''])
 # master = master.dropna()
