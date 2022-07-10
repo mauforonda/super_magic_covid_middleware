@@ -53,7 +53,7 @@ def aplicacion(vacunas, tipo):
     datos = {}
     for dep in vacunas.columns.get_level_values(0).unique():
         datos[dep] = vacunas[dep][tipo]
-    datos = pd.concat(datos, axis=1).tail(91)
+    datos = pd.concat(datos, axis=1)
     datos.columns = [dep_map[c] for c in datos.columns]
     datos = datos[departamentos].dropna().diff().dropna().astype(int)
     datos['tipo'] = tipo.lower()
